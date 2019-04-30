@@ -1,19 +1,10 @@
 import $ from 'jquery';
-import initCanvas from './api/init';
 
 const canvasContainer = document.querySelector('#canvas');
-const backetBtn = document.querySelector('#backet-tool');
-const colorPickerBtn = document.querySelector('#color-picker-tool');
-const moveBtn = document.querySelector('#move-tool');
-const transformBtn = document.querySelector('#transform-tool');
-const currentColor = document.querySelector('#color-block-current');
-const prevColor = document.querySelector('#prev-color');
 const predefinedColorOne = document.querySelector('#color-block-predefined1');
 const predefinedColorTwo = document.querySelector('#color-block-predefined2');
 
 const elementsInterval = 10;
-
-// initCanvas(canvasContainer);
 
 // init canvas
 
@@ -26,7 +17,7 @@ for (let i = 0; i < 3; i += 1) {
       continue;
     }
     const square = document.createElement('div');
-    square.id = `square-${figureCounter}`;
+    square.id = 'square';
     square.className = 'square-element';
     square.style.top = `${(200 + elementsInterval) * i + 50}px`;
     square.style.left = `${(200 + elementsInterval) * j}px`;
@@ -35,7 +26,7 @@ for (let i = 0; i < 3; i += 1) {
 }
 
 const circle = document.createElement('div');
-circle.id = 'circle-1';
+circle.id = 'circle';
 circle.className = 'circle-element';
 circle.style.top = '470px';
 circle.style.left = '0px';
@@ -103,4 +94,18 @@ $('#color-predefined2-holder').click((event) => {
   });
 });
 
-backetEvent = new Event();
+let timesClicked = 0;
+
+$('body').click((event) => {
+  if (event.target.id === 'backet-tool') {
+    timesClicked += 1;
+  } else if (((event.target.id === 'square') || (event.target.id === 'circle')) && timesClicked > 0) {
+    let color;
+    if (($('#color-picker-holder')[0].style.backgroundColor).length > 1) {
+      color = $('#color-picker-holder')[0].style.backgroundColor;
+    } else {
+      color = '#fff';
+    }
+    event.target.style.backgroundColor = color;
+  }
+});
